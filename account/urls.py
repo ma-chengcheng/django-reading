@@ -15,4 +15,6 @@ urlpatterns = [
     url(r'^UploadAvatarAPIView/$', views.UploadAvatarAPIView.as_view()),
     url(r'^SetUserDescribeAPIView/$', views.SetUserDescribeAPIView.as_view()),
     url(r'^SetUserDescribeAPIView/$', views.SetUserDescribeAPIView.as_view()),
+    url(r'^ChaseBookAPIView/$', views.ChaseBookAPIView.as_view()),
+    url(r'^SubscribeBookAPIView/$', views.SubscribeBookAPIView.as_view()),
 ]

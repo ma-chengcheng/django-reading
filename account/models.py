@@ -53,21 +53,30 @@ class UserProfile(models.Model):
     # JSON字典用来表示该用户的追书
     chase_book = JSONField(default={})
     # JSON字典用来表示该用户的订阅
-    subscriber_book = JSONField(default={})
+    subscribe_book = JSONField(default={})
 
     class Meta:
         db_table = "user_profile"
 
-    def update_chase_book(self, book_id):
+    def update_chase_book(self, book_id, book_name, cover):
+        # 已添加追书
         if str(book_id) in self.chase_book:
+            del self.chase_book[book_id]
+            print "已经添加"
             return
+        # 未添加追书
         else:
-            info = {'add_time': 0, 'is_buy': False}
+            info = {'book_name': book_name, 'cover': str(cover)}
             self.chase_book[book_id] = info
 
-    def update_subscriber_book(self, book_id):
-        if str(book_id) in self.chase_book:
+    def update_subscriber_book(self,  book_id, book_name, cover):
+        # 已添加订阅
+        if str(book_id) in self.subscribe_book:
+            del self.subscribe_book[book_id]
+            print "已经添加"
             return
+        # 未添加订阅
         else:
-            info = {'add_time': 0, 'is_buy': False}
-            self.chase_book[book_id] = info
+            info = {'book_name': book_name, 'cover': str(cover)}
+            self.subscribe_book[book_id] = info
+

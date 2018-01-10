@@ -46,55 +46,6 @@ class RankBookAPIView(APIView):
         return content
 
 
-# class ListModuleViewAPI(APIView):
-#
-#     """
-#     首页模块接口
-#     """
-#
-#     def get(self, request):
-#         module_name = request.GET.get("module_name")
-#         books = Book.objects.all()
-#         if 'new_book' == module_name:
-#             books = books.order_by('-update_time')
-#         elif 'free_book' == module_name:
-#             books = books.filter(book_money=0)
-#         elif 'superme_book' == module_name:
-#             books = books.order_by('-bookprofile__reward_num')
-#         elif 'hot_book' == module_name:
-#             books = books.order_by('-bookprofile__click_num')
-#
-#         book = books[0]
-#         book_items = books[1:6]
-#         serializer = ListModuleSerializer(book_items, many=True)
-#         top_book = dict()
-#         top_book['id'] = book.id
-#         top_book['cover'] = str(book.cover)
-#         top_book['book_name'] = book.book_name
-#         top_book['describe'] = book.describe
-#         top_book['author'] = book.author
-#         top_book['type'] = Book.BOOK_TYPE_CHOICES[book.type][1]
-#
-#         content = dict()
-#         content['top_book'] = top_book
-#         content['book_items'] = serializer.data
-#         return Response(data=content)
-#
-#
-# class SwiperModuleViewAPI(APIView):
-#
-#     """
-#     首页顶部图片接口
-#     """
-#
-#     def get(self, request):
-#         book = Book.objects.all()[:7]
-#         serializer = SwiperBookSerializer(book, many=True)
-#         content = dict()
-#         content['book_items'] = serializer.data
-#         return Response(data=content)
-
-
 class IndexBookAPIView(APIView):
 
     def __init__(self):
@@ -154,7 +105,7 @@ class LibraryBookViewAPI(APIView):
     def get(self, request):
         num_page = request.GET.get("numPage")
         book = Book.objects.all()
-        paginator = Paginator(book, 10)
+        paginator = Paginator(book, 5)
         num_pages = paginator.num_pages
         serializers = BookSerializer(paginator.page(num_page).object_list, many=True)
         content = dict()
@@ -197,12 +148,3 @@ class BookInfoAPIView(APIView):
         content['book_info'] = serializer.data
         return Response(data=content)
 
-
-class SubscriberBookAPIView(APIView):
-    """
-    订阅书籍
-    """
-    def get(self, request):
-        # book_id = request.GET.get('book_id')
-
-        return Response()

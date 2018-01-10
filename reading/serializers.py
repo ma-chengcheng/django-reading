@@ -22,12 +22,21 @@ class SwiperBookSerializer(serializers.Serializer):
 
 
 class BookSerializer(serializers.ModelSerializer):
+    # cat_ball_num = serializers.SerializerMethodField()
+    # catnip_num = serializers.SerializerMethodField()
+    # cat_stick_num = serializers.SerializerMethodField()
+    # cat_food_num = serializers.SerializerMethodField()
+    # cat_fish_num = serializers.SerializerMethodField()
+    # cat_house_num = serializers.SerializerMethodField()
+
     type = serializers.SerializerMethodField()
     update_state = serializers.SerializerMethodField()
 
     class Meta:
         model = Book
         fields = ('id', 'word_number', 'type', 'describe', 'author', 'cover', 'chapter_num', 'book_name', 'update_state')
+                  # ,'cat_ball_num', 'catnip_num', 'catnip_num', 'cat_stick_num', 'cat_food_num', 'cat_fish_num',
+                  # 'cat_house_num')
 
     def get_type(self, obj):
         return Book.BOOK_TYPE_CHOICES[obj.type][1]

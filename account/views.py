@@ -9,6 +9,7 @@ from .serializers import UserProfileSerializer, UserLoginSerializer, UserRegiste
 from utils.SMSVerification import SMSVerification
 from utils.shortcuts import success_response, error_response
 from .models import User, UserProfile
+from reading.models import Book
 from django.views.decorators.csrf import csrf_exempt
 import sys
 
@@ -227,4 +228,30 @@ class SetPhoneAPIView(APIView):
         new_phone = request.GET.get('new_phone')
         user.phone = new_phone
         user.save()
-        return success_response('修改成功')
+        return success_response(u'修改成功')
+
+
+class ChaseBookAPIView(APIView):
+    """
+    加入追书
+    """
+    def get(self, request):
+        book_id = request.GET.get('book_id')
+        book = Book.objects.get(id=book_id)
+        user_profile = request.user.userprofile
+        user_profile.update_chase_book(book_id, book.book_name, book.cover)
+        user_profile.save()
+        return success_response(u'加入成功')
+
+
+class SubscribeBookAPIView(APIView):
+    """
+    订阅书籍
+    """
+    def get(self, request):
+        book_id = request.GET.get('book_id')
+        book = Book.objects.get(id=book_id)
+        user_profile = request.user.userprofile
+        user_profile.update_subscriber_book(book_id, book.book_name, book.cover)
+        user_profile.save()
+        return success_response(u'订阅成功')

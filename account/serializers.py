@@ -16,10 +16,13 @@ class UserRegisterSerializer(serializers.Serializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     user_name = serializers.SerializerMethodField()
     phone = serializers.SerializerMethodField()
+    chase_book = serializers.SerializerMethodField()
+    subscribe_book = serializers.SerializerMethodField()
 
     class Meta:
         model = UserProfile
-        fields = ('user_name', 'phone', 'avatar', 'user_describe', 'balance', 'recommend_ticket_num', 'diamond_ticket_num')
+        fields = ('user_name', 'phone', 'avatar', 'user_describe', 'balance', 'recommend_ticket_num',
+                  'diamond_ticket_num', 'chase_book', 'subscribe_book')
 
     def get_user_name(self, obj):
         return obj.user.user_name
@@ -27,3 +30,8 @@ class UserProfileSerializer(serializers.ModelSerializer):
     def get_phone(self, obj):
         return obj.user.phone[:3] + '****' + obj.user.phone[-4:]
 
+    def get_chase_book(self, obj):
+        return obj.user.userprofile.chase_book
+
+    def get_subscribe_book(self, obj):
+        return obj.user.userprofile.subscribe_book
