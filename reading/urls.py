@@ -11,5 +11,5 @@ urlpatterns = [
     url(r'^BookInfoAPIView/$', views.BookInfoAPIView.as_view()),
 
     url(r'^IndexBookAPIView/$', views.IndexBookAPIView.as_view()),
-
+    url(r'^BookCatalogAPIView/$', views.BookCatalogAPIView.as_view()),
 ]

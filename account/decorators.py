@@ -28,7 +28,7 @@ class BasePermissionDecorator(object):
         else:
             if self.request.is_ajax():
                 message = "可用"
-                return　success_response(message)
+                return success_response(message)
             else:
                 # return HttpResponseRedirect()
                 message = '请登录后操作'
