@@ -1,4 +1,5 @@
 # **coding: utf-8**
+import json
 import datetime
 from rest_framework.views import APIView, Response
 from .models import Book, BookComment, BookChapter
@@ -12,6 +13,7 @@ from .serializers import (
 )
 from django.core.paginator import Paginator
 from utils.shortcuts import error_response
+from utils.redis_cache.redis_db import redis_client
 
 
 class RankBookAPIView(APIView):
@@ -54,13 +56,26 @@ class IndexBookAPIView(APIView):
 
     def __init__(self):
         super(APIView, self).__init__()
-        self.MODULE_NAME = ['newBook', 'free_book', 'superme_book', 'hot_book']
+        self.MODULE_NAME = ['new_book', 'free_book', 'superme_book', 'hot_book']
 
     def get(self, request):
         content = dict()
-        content['recommend_book'] = self.get_swiper_book()
+
+        # 未缓存情况
+        if redis_client().get('recommend_book') == 'None':
+            content['recommend_book'] = self.get_swiper_book()
+            redis_client().set('recommend_book', json.dumps(content['recommend_book']))
+        else:
+            content['recommend_book'] = json.loads(redis_client().get('recommend_book'))
+
         for module_name in self.MODULE_NAME:
-            content[module_name] = self.get_list(module_name)
+
+            if redis_client().get(module_name) == 'None':
+                content[module_name] = self.get_list(module_name)
+                redis_client().set(module_name, json.dumps(content[module_name]))
+            else:
+                content[module_name] = json.loads(redis_client().get(module_name))
+
         return Response(data=content)
 
     @ staticmethod
