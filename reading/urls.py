@@ -12,4 +12,5 @@ urlpatterns = [
 
     url(r'^IndexBookAPIView/$', views.IndexBookAPIView.as_view()),
     url(r'^BookCatalogAPIView/$', views.BookCatalogAPIView.as_view()),
+    url(r'^BookChapterAPIView/$', views.BookChapterAPIView.as_view()),
 ]

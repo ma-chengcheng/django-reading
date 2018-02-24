@@ -83,7 +83,6 @@ class BookCommentSerializer(serializers.ModelSerializer):
 
     def get_comment_date(self, obj):
         month = self.MONTH[obj.comment_date.month-1]
-        print month
         return '{0} {1}, {2}'.format(month, obj.comment_date.day, obj.comment_date.year)
 
 
@@ -155,3 +154,12 @@ class BookCatalogSerializer(serializers.ModelSerializer):
 
     def get_chapter(self, obj):
         return "第{0}章　{1}".format(obj.chapter_id, obj.chapter_name)
+
+
+class BookChapterSerializer(serializers.ModelSerializer):
+    """ 书籍内容序列化 """
+
+    class Meta:
+        model = BookChapter
+        fields = ('chapter_name', 'chapter_id', 'chapter_content', 'word_number', 'update_date', 'chapter_type',
+                  'chapter_money')

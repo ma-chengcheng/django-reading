@@ -94,7 +94,6 @@ class BookChapter(models.Model):
     CHAPTER_TYPE_CHOICE = (
         (0, "免费"),
         (1, "收费"),
-        (2, "已付费")
     )
 
     # 书籍章节状态选项

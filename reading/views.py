@@ -9,7 +9,8 @@ from .serializers import (
     SwiperBookSerializer,
     BookSerializer,
     BookInfoSerializer,
-    BookCatalogSerializer
+    BookCatalogSerializer,
+    BookChapterSerializer
 )
 from django.core.paginator import Paginator
 from utils.shortcuts import error_response
@@ -237,3 +238,15 @@ class BookCatalogAPIView(APIView):
         content = dict()
         content['catalog_items'] = serializer.data
         return Response(data=content)
+
+
+class BookChapterAPIView(APIView):
+    """
+    书籍章节内容
+    """
+    def get(self, request):
+        book_id = request.GET.get('book_id')
+        chapter_id = request.GET.get('chapter_id')
+        chapter = BookChapter.objects.filter(book=book_id, chapter_id=chapter_id).get()
+        serializer = BookChapterSerializer(chapter)
+        return Response(serializer.data)
